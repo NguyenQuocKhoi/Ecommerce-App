@@ -10,7 +10,7 @@ const appNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Home"
+          name="home"
           component={Home}
           options={{headerShown: false}}
         />
