@@ -24,7 +24,7 @@ const Footer = () => {
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() => {
-          alert('Notification Page');
+          navigation.navigate('notification');
         }}>
         <AntDesign
           style={[styles.icon, route.name === 'notification' && styles.active]}
@@ -39,7 +39,7 @@ const Footer = () => {
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() => {
-          alert('Account Page');
+          navigation.navigate('account');
         }}>
         <AntDesign
           style={[styles.icon, route.name === 'account' && styles.active]}

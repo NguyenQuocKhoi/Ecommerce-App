@@ -9,11 +9,14 @@ import Checkout from '../screens/Checkout';
 import Payment from '../screens/Payment';
 import Login from '../screens/auth/Login';
 import Register from '../screens/auth/Register';
+import Account from '../screens/Account/Account';
+import Notification from '../screens/Account/Notification';
+import Profile from '../screens/Account/Profile';
 const appNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="login">
+      <Stack.Navigator initialRouteName="home">
         <Stack.Screen
           name="home"
           component={Home}
@@ -40,6 +43,14 @@ const appNavigator = () => {
           component={Register}
           options={{headerShown: false}}
         />
+
+        <Stack.Screen
+          name="account"
+          component={Account}
+          // options={{headerShown: false}}
+        />
+        <Stack.Screen name="notification" component={Notification} />
+        <Stack.Screen name="profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
