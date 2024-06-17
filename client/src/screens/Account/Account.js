@@ -28,7 +28,9 @@ const Account = () => {
             <Text style={styles.btnText}>Edit Profile</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => navigation.navigate('myorder', {id: userData._id})}>
             <AntDesign name="bars" style={styles.btnText} />
             <Text style={styles.btnText}>My Order</Text>
           </TouchableOpacity>
@@ -40,7 +42,11 @@ const Account = () => {
             <Text style={styles.btnText}>Notification</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() =>
+              navigation.navigate('adminPanel', {id: userData._id})
+            }>
             <Materiallcons name="admin-panel-settings" style={styles.btnText} />
             <Text style={styles.btnText}>Admin Panel</Text>
           </TouchableOpacity>

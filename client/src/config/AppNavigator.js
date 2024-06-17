@@ -12,6 +12,8 @@ import Register from '../screens/auth/Register';
 import Account from '../screens/Account/Account';
 import Notification from '../screens/Account/Notification';
 import Profile from '../screens/Account/Profile';
+import MyOrder from '../screens/Account/MyOrder';
+import Dashboard from '../screens/Admin/Dashboard';
 const appNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -51,6 +53,8 @@ const appNavigator = () => {
         />
         <Stack.Screen name="notification" component={Notification} />
         <Stack.Screen name="profile" component={Profile} />
+        <Stack.Screen name="myorder" component={MyOrder} />
+        <Stack.Screen name="adminPanel" component={Dashboard} />
       </Stack.Navigator>
     </NavigationContainer>
   );
