@@ -16,6 +16,14 @@ export const registerController = async (req, res) => {
         message: "Please provide all fields",
       });
     }
+
+    const exisitingUser = await userModel.findOne({ email });
+    if (exisitingUser) {
+      return res.status(500).send({
+        success: false,
+        message: "email already token",
+      });
+    }
     const user = await userModel.create({
       name,
       email,
@@ -35,6 +43,102 @@ export const registerController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error In Register API",
+      error,
+    });
+  }
+};
+
+export const loginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(500).send({
+        success: false,
+        message: "Please Add Email OR Password",
+      });
+    }
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User Not Found",
+      });
+    }
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(500).send({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    //token
+    const token = user.generateToken();
+
+    res
+      .status(200)
+      .cookie("token", token, {
+        expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+        secure: process.env.NODE_ENV === "development" ? true : false,
+        httpOnly: process.env.NODE_ENV === "development" ? true : false,
+        sameSite: process.env.NODE_ENV === "development" ? true : false,
+      })
+      .send({
+        success: true,
+        message: "Login Successfully",
+        token,
+        user,
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In Login Api",
+    });
+  }
+};
+
+export const getUserProfileController = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    user.password = undefined;
+    res.status(200).send({
+      success: true,
+      message: "User Profile Fetch Successfully",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In Profile API",
+      error,
+    });
+  }
+};
+
+export const logoutController = async (req, res) => {
+  try {
+    res
+      .status(200)
+      .cookie("token", "", {
+        expires: new Date(Date.now()),
+        secure: process.env.NODE_ENV === "development" ? true : false,
+        httpOnly: process.env.NODE_ENV === "development" ? true : false,
+        sameSite: process.env.NODE_ENV === "development" ? true : false,
+      })
+      .send({
+        success: true,
+        message: "Logout Succesfully",
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In Logout API",
       error,
     });
   }

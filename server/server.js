@@ -3,6 +3,7 @@ import colors from "colors";
 import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 import testRoutes from "./routes/testRoutes.js";
 import { connect } from "mongoose";
@@ -17,6 +18,7 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 app.use("/api/v1", testRoutes);
 app.use("/api/v1/user", userRoutes);
@@ -28,5 +30,5 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
-  console.log(`Server Running On PORT ${process.env.PORT}`.bgMagenta.white);
+  console.log(`Server Running On PORT ${process.env.PORT} on ${process.env.NODE_ENV}`.bgMagenta.white);
 });
