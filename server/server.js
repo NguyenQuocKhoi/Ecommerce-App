@@ -9,7 +9,7 @@ import testRoutes from "./routes/testRoutes.js";
 import { connect } from "mongoose";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
-
+import cloudinary from "cloudinary";
 dotenv.config();
 
 connectDB();
@@ -19,7 +19,16 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-
+// cloudinary.v2.config({
+//   cloud_name: process.env.CLOUDINARY_NAME,
+//   api_key: process.env.CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_SECRET,
+// });
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
 app.use("/api/v1", testRoutes);
 app.use("/api/v1/user", userRoutes);
 
@@ -30,5 +39,8 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
-  console.log(`Server Running On PORT ${process.env.PORT} on ${process.env.NODE_ENV}`.bgMagenta.white);
+  console.log(
+    `Server Running On PORT ${process.env.PORT} on ${process.env.NODE_ENV}`
+      .bgMagenta.white
+  );
 });
