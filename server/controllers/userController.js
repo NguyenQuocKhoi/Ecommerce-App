@@ -143,3 +143,63 @@ export const logoutController = async (req, res) => {
     });
   }
 };
+
+export const updateProfileController = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    const { name, email, address, city, country, phone } = req.body;
+
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (address) user.address = address;
+    if (city) user.city = city;
+    if (country) user.country = country;
+    if (phone) user.phone = phone;
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: "User Profile Updated",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In UpdateProfile API",
+      error,
+    });
+  }
+};
+
+export const updatePassword = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res.status(500).send({
+        success: false,
+        message: "Please provide old or new password",
+      });
+    }
+    const isMatch = await user.comparePassword(oldPassword);
+
+    if (!isMatch) {
+      return res.status(500).send({
+        success: false,
+        message: "Invalid Old Password",
+      });
+    }
+    user.password = newPassword;
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: "Password, Update Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In UpdatePassword API",
+      error,
+    });
+  }
+};
