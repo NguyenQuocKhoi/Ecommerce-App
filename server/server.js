@@ -4,12 +4,12 @@ import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-
+import cloudinary from "cloudinary";
 import testRoutes from "./routes/testRoutes.js";
 import { connect } from "mongoose";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
-import cloudinary from "cloudinary";
+import productRoutes from "./routes/productRoutes.js"
 dotenv.config();
 
 connectDB();
@@ -31,6 +31,7 @@ cloudinary.v2.config({
 });
 app.use("/api/v1", testRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/product", productRoutes)
 
 app.get("/", (req, res) => {
   return res.status(200).send("<h1> Welcome to node server Ecommerce App</h1>");
