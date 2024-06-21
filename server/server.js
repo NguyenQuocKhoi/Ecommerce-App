@@ -11,6 +11,7 @@ import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 dotenv.config();
 
 connectDB();
@@ -34,6 +35,7 @@ app.use("/api/v1", testRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/category", categoryRoutes);
+app.use("/api/v1/order", orderRoutes);
 
 app.get("/", (req, res) => {
   return res.status(200).send("<h1> Welcome to node server Ecommerce App</h1>");
