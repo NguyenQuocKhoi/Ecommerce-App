@@ -1,5 +1,5 @@
 import express from "express";
-import { isAuth } from "../middlewares/authMiddlewares.js";
+import { isAdmin, isAuth } from "../middlewares/authMiddlewares.js";
 import { singleUpload } from "../middlewares/multer.js";
 import {
   createCategoryController,
@@ -9,11 +9,11 @@ import {
 } from "../controllers/categoryController.js";
 const router = express.Router();
 
-router.post("/create", isAuth, createCategoryController);
+router.post("/create", isAuth, isAdmin, createCategoryController);
 
 router.get("/getAll", getAllCategoriesController);
 
-router.delete("/:id", isAuth, deleteCategoryController);
+router.delete("/:id", isAuth, isAdmin, deleteCategoryController);
 
-router.put("/:id", isAuth, updateCategoryController);
+router.put("/:id", isAuth, isAdmin, updateCategoryController);
 export default router;

@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cloudinary from "cloudinary";
+import Stripe from "stripe"
 import testRoutes from "./routes/testRoutes.js";
 import { connect } from "mongoose";
 import connectDB from "./config/db.js";
@@ -21,16 +22,15 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-// cloudinary.v2.config({
-//   cloud_name: process.env.CLOUDINARY_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_SECRET,
-// });
+
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_SECRET,
 });
+
+export const stripe = new Stripe(process.env.STRIPE_API_SECRET)
+
 app.use("/api/v1", testRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/product", productRoutes);
