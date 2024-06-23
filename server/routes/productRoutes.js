@@ -3,6 +3,7 @@ import { isAdmin, isAuth } from "../middlewares/authMiddlewares.js";
 import { singleUpload } from "../middlewares/multer.js";
 import {
   addProductController,
+  createProductPreviewController,
   deleteProductController,
   deleteProductImageController,
   getAllProductsController,
@@ -36,5 +37,7 @@ router.delete(
 );
 
 router.delete("/:id", isAuth, isAdmin, deleteProductController);
+
+router.put("/review/:id", isAuth, createProductPreviewController);
 
 export default router;

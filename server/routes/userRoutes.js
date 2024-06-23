@@ -4,6 +4,7 @@ import {
   loginController,
   logoutController,
   registerController,
+  resetPasswordController,
   updateAvatarController,
   updatePassword,
   updateProfileController,
@@ -26,4 +27,6 @@ router.put("/updateProfile", isAuth, updateProfileController);
 router.put("/updatePassword", isAuth, updatePassword);
 
 router.put("/updateAvatar", isAuth, singleUpload, updateAvatarController);
+
+router.post("/resetPassword",resetPasswordController)
 export default router;

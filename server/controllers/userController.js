@@ -3,7 +3,8 @@ import { getDataUri } from "../utils/features.js";
 import cloudinary from "cloudinary";
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, address, city, country, phone } = req.body;
+    const { name, email, password, address, city, country, phone, answer } =
+      req.body;
     if (
       !name ||
       !email ||
@@ -11,7 +12,8 @@ export const registerController = async (req, res) => {
       !address ||
       !city ||
       !country ||
-      !phone
+      !phone ||
+      !answer
     ) {
       return res.status(500).send({
         success: false,
@@ -34,6 +36,7 @@ export const registerController = async (req, res) => {
       city,
       country,
       phone,
+      answer,
     });
     res.status(201).send({
       success: true,
@@ -234,3 +237,35 @@ export const updateAvatarController = async (req, res) => {
   }
 };
 
+export const resetPasswordController = async (req, res) => {
+  try {
+    const { email, newPassword, answer } = req.body;
+    if (!email || !newPassword || !answer) {
+      return res.status(404).send({
+        success: false,
+        message: "Please provide all fields",
+      });
+    }
+    const user = await userModel.findOne({email, answer});
+    if(!user){
+      return res.status(404).send({
+        success:false,
+        message:"invalid email not answer",
+      })
+    }
+
+    user.password = newPassword
+    await user.save()
+    res.status(200).send({
+      success:true,
+      message:"Your password has been resete Please Login !"
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In UpdateAvatar API",
+      error,
+    });
+  }
+};
