@@ -8,12 +8,15 @@ import {
   deleteProductImageController,
   getAllProductsController,
   getProductByIdController,
+  getTopProductsController,
   updateProductController,
   updateProductImageController,
 } from "../controllers/productController.js";
 const router = express.Router();
 
 router.get("/getAllProducts", getAllProductsController);
+
+router.get("/getTop", getTopProductsController);
 
 router.get("/:id", getProductByIdController);
 

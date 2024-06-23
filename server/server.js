@@ -5,7 +5,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cloudinary from "cloudinary";
-import Stripe from "stripe"
+import Stripe from "stripe";
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
 import testRoutes from "./routes/testRoutes.js";
 import { connect } from "mongoose";
 import connectDB from "./config/db.js";
@@ -18,6 +20,8 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.use(helmet());
+app.use(mongoSanitize());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
@@ -29,7 +33,7 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-export const stripe = new Stripe(process.env.STRIPE_API_SECRET)
+export const stripe = new Stripe(process.env.STRIPE_API_SECRET);
 
 app.use("/api/v1", testRoutes);
 app.use("/api/v1/user", userRoutes);
