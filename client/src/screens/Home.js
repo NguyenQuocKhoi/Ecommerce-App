@@ -4,8 +4,18 @@ import Category from '../components/Category/Categories';
 import Banner from '../components/Banner/Banner';
 import Product from '../components/Product/Product';
 import Header from '../components/Layout/Header';
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect} from 'react';
+import {getUserData} from '../../redux/features/auth/userAction';
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const {isAuth} = useSelector(state => state.user);
+
+  useEffect(() => {
+    dispatch(getUserData());
+    console.log(isAuth);
+  }, [dispatch]);
   return (
     <Layout>
       <Header />

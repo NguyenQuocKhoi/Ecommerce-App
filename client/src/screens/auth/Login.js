@@ -6,26 +6,45 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import InputBox from '../../components/Form/InputBox';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {login} from '../../../redux/features/auth/userAction';
+import {useReduxStateHook} from '../../../hook/customeHook';
 const Login = ({navigation}) => {
   const loginImage =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3Mclb0NdAfReSwkqWDtxIh2Oc4vEyPMYzeg&s';
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@gmail.com');
+  const [password, setPassword] = useState('12345678');
 
+  const dispatch = useDispatch();
+  // const {loading, error, message} = useSelector(state => state.user);
+
+  const loading = useReduxStateHook(navigation, 'home');
   const handleLogin = () => {
     if (!email || !password) {
       return alert('Please add email or password');
     }
-    alert('Login Successfully');
-    navigation.navigate('home');
+    dispatch(login(email, password));
+   
   };
+
+  // useEffect(() => {
+  //   if (error) {
+  //     alert(error);
+  //     dispatch({type: 'clearError'});
+  //   }
+  //   if (message) {
+  //     alert(message);
+  //     dispatch({type: 'clearMessage'});
+  //     navigation.navigate('home');
+  //   }
+  // }, [error, message, dispatch]);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image source={{uri: loginImage}} style={styles.image} />
+        {loading && <Text>loading ....</Text>}
         {/* <Text>Email</Text> */}
         <InputBox
           value={email}
@@ -46,7 +65,9 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
           <Text>
             Not a user yet ? Please{' '}
-            <Text style={styles.link} onPress={() => navigation.navigate('register')}>
+            <Text
+              style={styles.link}
+              onPress={() => navigation.navigate('register')}>
               Register Here
             </Text>
           </Text>
@@ -91,8 +112,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 20,
   },
-  link:{
-    color:"red",
-  }
+  link: {
+    color: 'red',
+  },
 });
 export default Login;

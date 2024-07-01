@@ -137,13 +137,13 @@ export const logoutController = async (req, res) => {
       })
       .send({
         success: true,
-        message: "Logout Succesfully",
+        message: "Logout SUccessfully",
       });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error In Logout API",
+      message: "Error In LOgout API",
       error,
     });
   }

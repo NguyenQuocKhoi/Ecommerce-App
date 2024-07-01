@@ -8,6 +8,9 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import InputBox from '../../components/Form/InputBox';
+import {useDispatch} from 'react-redux';
+import {register} from '../../../redux/features/auth/userAction';
+import {useReduxStateHook} from '../../../hook/customeHook';
 
 const Register = ({navigation}) => {
   const loginImage =
@@ -17,15 +20,31 @@ const Register = ({navigation}) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
-  const [contact, setContact] = useState('');
+  const [phone, setPhone] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [country, setCountry] = useState('VN');
 
+  const dispatch = useDispatch();
   const handleRegister = () => {
-    if (!email || !password || !name || !address || !city || !contact) {
+    if (!email || !password || !name || !address || !city || !phone) {
       return alert('Please provide all field');
     }
-    alert('Register Successfully');
-    navigation.navigate('login');
+    const formData = {
+      email,
+      password,
+      name,
+      address,
+      city,
+      phone,
+      answer,
+      country: 'vn',
+    };
+    dispatch(register(formData));
+
+    // alert('Register Successfully');
+    // navigation.navigate('login');
   };
+  const loading = useReduxStateHook(navigation, 'login');
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -33,7 +52,7 @@ const Register = ({navigation}) => {
         {/* <Text>Email</Text> */}
         <InputBox
           value={name}
-          setValue={name}
+          setValue={setName}
           placeholder={'Enter Your Name'}
           autoComplete={'name'}
         />
@@ -65,10 +84,17 @@ const Register = ({navigation}) => {
         />
 
         <InputBox
-          value={contact}
-          setValue={setContact}
+          value={phone}
+          setValue={setPhone}
           placeholder={'Enter Your Contact'}
           autoComplete={'tel'}
+        />
+
+        <InputBox
+          value={answer}
+          setValue={setAnswer}
+          placeholder={'Enter Your Answer'}
+          // autoComplete={'tel'}
         />
 
         <View style={styles.btnContainer}>
